@@ -51,14 +51,19 @@ class ReportsController extends Controller
      */
     public function actionIndex()
     {
-    
+        $fromYear = 2014;
+        $untilYear = 2021;
+        
         $searchModel = new ReportsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 2014, 2030);
-
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $fromYear, $untilYear);
+        //dataprovider is now 2d array of year and month
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'class'=> date('n'),
-            'dataProviderMonthly' => $dataProvider,
+            'currentmonth'=> date('n'),
+            'currentyear' => date('Y'),
+            'fromYear'  => $fromYear,
+            'untilYear' => $untilYear,
+            'dataProvider' => $dataProvider,
         ]);
         
        
