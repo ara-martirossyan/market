@@ -7,12 +7,14 @@ use frontend\widgets\Alert;
 
 use frontend\assets\AppAsset;
 use frontend\assets\FontAwesomeAsset;
+use frontend\assets\NestedTabsAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
+NestedTabsAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -38,26 +40,29 @@ FontAwesomeAsset::register($this);
                 ],
             ]);
             $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'About', 'url' => ['/site/about']],
-                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => '', 'url' => ['/site/index'], 'linkOptions'=>['class'=>'glyphicon glyphicon-home'],],
+                ['label' => '', 'url' => ['/site/about'],'linkOptions'=>['class'=>'glyphicon glyphicon-info-sign'],],
+                ['label' => '', 'url' => ['/site/contact'], 'linkOptions'=>['class'=>'glyphicon glyphicon-envelope'],],
             ];
             if (!Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Reports', 'url' => ['/reports/index']];
-                $menuItems[] = ['label' => 'Performance', 'url' => ['/reports/performance']];
+                $menuItems[] = ['label' => ' Reports', 'url' => ['/reports/index' ], 'linkOptions'=>['class'=>'glyphicon glyphicon-pencil'],];
+                $menuItems[] = ['label' => ' Performance', 'url' => ['/reports/performance'], 'linkOptions'=>['class'=>'glyphicon glyphicon-stats'],];
             }
 
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+                
+                $menuItems[] = ['label' => ' Signup', 'url' => ['/site/signup'], ];
+                $menuItems[] = ['label' => ' Login', 'url' => ['/site/login'], 'linkOptions'=>['class'=>'glyphicon glyphicon-log-in'],];
             } else {
+                
                 $menuItems[] = [
-                    'label' => Yii::$app->user->identity->username,
+                    'label' => "  ".Yii::$app->user->identity->username,
                     'items' =>
                     [
-                       ['label' => 'Profile', 'url' => ['/profile/view']],
-                       [ 'label' => 'Logout', 'url' => [ '/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+                       ['label' => ' Profile', 'url' => ['/profile/view'],'linkOptions' => ['class' => 'glyphicon glyphicon-user'],],
+                       [ 'label' => ' Logout', 'url' => [ '/site/logout'], 'linkOptions' => ['data-method' => 'post', 'class'=>'glyphicon glyphicon-log-out']],
                     ],
+                    'linkOptions'=>['class'=>'fa fa-user'], 
                     
                 ];
             }
