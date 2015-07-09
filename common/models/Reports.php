@@ -25,11 +25,14 @@ use Yii;
  */
 class Reports extends \yii\db\ActiveRecord
 {
+    // r=reports/performance fields
     public $month;
     public $totalRevenue;
     public $averageSalaryPerDay;
     public $numberOfWorkedDays;
     public $totalSalary;
+    
+
     /**
      * @inheritdoc
      */

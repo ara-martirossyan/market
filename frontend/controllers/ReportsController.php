@@ -21,10 +21,10 @@ class ReportsController extends Controller
                 return [
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['index', 'view','create', 'update', 'delete'], 
+                'only' => ['index', 'view','create', 'update', 'delete', 'performance'], 
                 'rules' => [ 
                 [
-                    'actions' => ['index', 'view','update', 'delete', 'create'],
+                    'actions' => ['index', 'view','update', 'delete', 'create', 'performance'],
                     'allow' => true,
                     'roles' => ['@'],
                     'matchCallback' => function ($rule, $action) {
@@ -53,17 +53,26 @@ class ReportsController extends Controller
     {
         $fromYear = 2014;
         $untilYear = 2021;
-        
-        $searchModel = new ReportsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $fromYear, $untilYear);
-        //dataprovider is now 2d array of year and month
+
+       $searchModel = [];
+       $dataProvider = [];
+
+       
+        for($y = $fromYear; $y <= $untilYear; ++$y){
+            for($m = 1; $m <= 12; ++$m){
+                  $searchModel[$y][$m] = new ReportsSearch();
+                  $dataProvider[$y][$m] = $searchModel[$y][$m]->search($y, $m, Yii::$app->request->queryParams);
+            }
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'currentmonth'=> date('n'),
             'currentyear' => date('Y'),
             'fromYear'  => $fromYear,
             'untilYear' => $untilYear,
-            'dataProvider' => $dataProvider,
+            
         ]);
         
        
@@ -75,15 +84,9 @@ class ReportsController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    {      
+    {     
         $model = $this->findModel($id);
-        $time = strtotime($model->date);
-        $month = date('n', $time);
-        $list = ReportsSearch::listOfReportsIDbyCurrentUser($month);
-        foreach ($list as $key => $value) {
-           if($value == $id){
-           $day = $key + 1;}
-        }       
+        $day = $this->dayNumberOfReport($id);      
 
         return $this->render('view', [
             'model' => $model,
@@ -99,7 +102,7 @@ class ReportsController extends Controller
     public function actionCreate()
     {
         $model = new Reports();
-        //in case of the user the working or non-working day type is inserted by default 1(working day)
+        //in case of the user, the working or non-working day type is inserted by default 1(working day)
         $model->day_type = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -126,13 +129,15 @@ class ReportsController extends Controller
         if ($id == $report_max_id /* && $state_model_with_max_id->input == 0*/) {
 
             $model = $this->findModel($id);
-
+            $day = $this->dayNumberOfReport($id); 
+            
             if ($model->load(Yii::$app->request->post()) && $model->save()) {             
                 
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [
                             'model' => $model,
+                            'day' => $day,
                 ]);
             }
         }else{
@@ -198,6 +203,28 @@ class ReportsController extends Controller
         }
     }
     
+    /**
+     * day number coincides with the 
+     * serial number of the GridView::widget
+     * @param type $id
+     * @return type int
+     */
+    private function dayNumberOfReport($id)
+    {
+        $model = $this->findModel($id);
+        $time = strtotime($model->date);
+        $month = date('n', $time);
+        $year = date('Y', $time);
+        $list = ReportsSearch::listOfReportsIDbyCurrentUser($year, $month);
+        foreach ($list as $key => $value) {
+           if($value == $id){
+           $day = $key + 1;}
+        }  
+        
+        return $day;
+    }
+
+
     /*
      * to export excel monthly
      

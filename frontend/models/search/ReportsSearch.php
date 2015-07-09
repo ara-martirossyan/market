@@ -12,6 +12,7 @@ use common\models\Reports;
  */
 class ReportsSearch extends Reports
 { 
+
     
     /**
      * @inheritdoc
@@ -32,25 +33,6 @@ class ReportsSearch extends Reports
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }  
-    
-    /**
-     * returns 2d array search[$year][$month]
-     * @param type $params Yii::$app->request->queryParams
-     * @param type $fromYear int
-     * @param type $untilYear int
-     * @return type array()
-     */
-    public function search($params, $fromYear, $untilYear)
-    {
-        $search = [];
-        for ($year = $fromYear; $year <= $untilYear; ++$year) {
-            for ($month = 1; $month <= 12; ++$month) {
-                $search[$year][$month] = $this->searchReport($year, $month, $params);
-            }
-        }
-
-        return $search;
-    }
 
     /**
      * 
@@ -58,7 +40,7 @@ class ReportsSearch extends Reports
      * @param type $params
      * @return ActiveDataProvider
      */
-    public function searchReport($year, $month, $params) {
+    public function search($year, $month, $params) {
         if($month <= 9){$month = '0'.$month;}        
         $query = Reports::find();            
         $userID = Yii::$app->user->identity->id;
@@ -108,17 +90,22 @@ class ReportsSearch extends Reports
         return $q;
     }
     
-    /**TO BE UPDATED
-     * the array  of report ids reported by the current user in $month
+    /**
+     * the array  of report ids reported by the current user in mentioned $month of the $year
      * where the keys(key+1) of the array represent the working day numbers of the user
+     * @param type $year int
      * @param type $month int
      * @return type array
      */
-    public function listOfReportsIDbyCurrentUser($month) {
-       $month <= 9 ? ($month = '-0' . $month . '-') : ($month = '-' . $month . '-');
+    public function listOfReportsIDbyCurrentUser($year, $month) {
+        
+       if($month <= 9)
+       {
+           $month = '0' . $month;
+       }
        $userID = Yii::$app->user->identity->id;
        $arrayID =    yii\helpers\ArrayHelper::map(
-                  Reports::find()->where(['like', 'date', $month])->andFilterWhere(['user_id' => $userID])->all(), 
+                  Reports::find()->where(['like', 'date', $year."-".$month])->andFilterWhere(['user_id' => $userID])->all(), 
                   'id',
                   'id'
                );
@@ -131,7 +118,7 @@ class ReportsSearch extends Reports
      * @return ActiveDataProvider
      */
     public function searchPerformance() {
-
+        
         $userID = Yii::$app->user->identity->id;
         $query = Reports::find()->select([
             'MONTH(date) as "month"',

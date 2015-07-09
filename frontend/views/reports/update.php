@@ -5,10 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Reports */
 
-$this->title = 'Update Report: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Updates', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+
+$this->title = 'Update Report of day '.$day;
+$this->params['breadcrumbs'][] = ['label' => 'Reports', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'day nr.'.$day, 'url' => ['view', 'id' => $model->id]];
+
 ?>
 <div class="reports-update">
 

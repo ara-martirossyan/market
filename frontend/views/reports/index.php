@@ -2,7 +2,11 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\ActiveForm;
+//use yii\widgets\ActiveForm;
+
+use yii\widgets\Pjax;
+
+//use yii\bootstrap\Nav ;
 
 /* @var $this yii\web\View */
 /* @var $currentmonth is current month number*/
@@ -26,7 +30,7 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-        <?= Html::a('Make Report', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(' Add Report', ['create'], ['class' => 'fa fa-plus btn btn-default']) ?>
     </p>
 
 
@@ -37,7 +41,7 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
 
 
 <div class="tabbable boxed parentTabs">
-    <ul class="nav nav-tabs  col-md-1">
+    <ul class="nav nav-tabs">
         
         <br><br><br>
         <?php
@@ -48,7 +52,7 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
         <?php } ?>
             
     </ul>
-    <div class="tab-content col-md-11">
+    <div class="tab-content">
         
         <?php
         for ($y = $fromYear; $y <= $untilYear; ++$y) {
@@ -76,15 +80,15 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
                                 <br>
 
                                 <p>
-                                    <?= Html::a('Export to Excel', ["/reports/export?month=$m"], ['class' => 'btn btn-success']) ?>
+                                    <?php // Html::a('Export to Excel', ["/reports/export?month=$m"], ['class' => 'btn btn-success']) ?>
                                 </p>
                                 <br>                                    
-
+                                <?php  Pjax::begin(); ?>
                                 <?=
                                 //   echo '<pre>'; var_dump($dataProviderMonthly[$m]); echo '</pre>'; die();
                                  GridView::widget([
                                     'dataProvider' => $dataProvider[$y][$m],
-                                    'filterModel' => $searchModel,
+                                    'filterModel' => $searchModel[$y][$m],
                                     'rowOptions' => function($model) {
                                         if ($model->date == " ") {
                                             // return ['class' => 'success', ];
@@ -109,6 +113,9 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
                                                 }
                                             },
                                                 ],
+                                                
+                                               
+                        
                                                 [
                                                     'attribute' => 'revenue',
                                                     'value' => function($model) {
@@ -167,6 +174,7 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
                                                     ],
                                                 ]);
                                 ?> 
+                                <?php  Pjax::end(); ?>
 
 
 
@@ -182,7 +190,6 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
 
     </div>
 </div>
-
 
 
 
