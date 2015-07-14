@@ -73,8 +73,7 @@ class ReportsController extends Controller
             'fromYear'  => $fromYear,
             'untilYear' => $untilYear,
             
-        ]);
-        
+        ]);        
        
     }
 

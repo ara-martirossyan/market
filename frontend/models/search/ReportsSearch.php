@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use common\models\Reports;
 
 /**
- * ReportsSearch represents the model behind the search form about `app\models\Reports`.
+ * ReportsSearch represents the model behind the search form about `common\models\Reports`.
  */
 class ReportsSearch extends Reports
 { 

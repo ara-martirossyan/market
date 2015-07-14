@@ -53,22 +53,35 @@ class ReportsController extends Controller
         ];
     }
 
-    /**
+     /**
      * Lists all Reports models.
      * @return mixed
      */
     public function actionIndex()
     {
-    
-        $searchModel = new ReportsSearch();
-        $dataProvider = $searchModel->searchMonthly(Yii::$app->request->queryParams);
+        $fromYear = 2014;
+        $untilYear = 2021;
+
+       $searchModel = [];
+       $dataProvider = [];
+
+       
+        for($y = $fromYear; $y <= $untilYear; ++$y){
+            for($m = 1; $m <= 12; ++$m){
+                  $searchModel[$y][$m] = new ReportsSearch();
+                  $dataProvider[$y][$m] = $searchModel[$y][$m]->search($y, $m, Yii::$app->request->queryParams);
+            }
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'class'=> date('n'),
-            'dataProviderMonthly' => $dataProvider,
-        ]);
-        
+            'dataProvider' => $dataProvider,
+            'currentmonth'=> date('n'),
+            'currentyear' => date('Y'),
+            'fromYear'  => $fromYear,
+            'untilYear' => $untilYear,
+            
+        ]);        
        
     }
 

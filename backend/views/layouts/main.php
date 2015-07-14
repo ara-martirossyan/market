@@ -1,12 +1,15 @@
 <?php
 
-use backend\assets\AppAsset;
+
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\models\ValueHelpers;
+
+use backend\assets\AppAsset;
 use backend\assets\FontAwesomeAsset;
+use backend\assets\NestedTabsAsset;
 
 
 /* @var $this \yii\web\View */
@@ -14,6 +17,7 @@ use backend\assets\FontAwesomeAsset;
 
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
+NestedTabsAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
