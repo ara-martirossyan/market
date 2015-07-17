@@ -34,12 +34,12 @@ class ReportsSearch extends Reports
         return Model::scenarios();
     }  
 
-    /**
-     * 
-     * @param type $month int
-     * @param type $params
-     * @return ActiveDataProvider
-     */
+   /**
+    * @param type $year int
+    * @param string $month int
+    * @param type $params Yii::$app->request->queryParams
+    * @return ActiveDataProvider
+    */
     public function search($year, $month, $params) {
         if($month <= 9){$month = '0'.$month;}        
         $query = Reports::find();            

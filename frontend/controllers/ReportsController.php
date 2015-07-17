@@ -122,10 +122,10 @@ class ReportsController extends Controller
     public function actionUpdate($id)
     {
         $report_max_id = Reports::find()->max('id');
-        //$state_max_id = \app\models\State::find()->max('id');
-        //$state_model_with_max_id = \app\models\State::findOne($state_max_id);
+        $state_max_id = \backend\models\State::find()->max('id');
+        $state_model_with_max_id = \backend\models\State::findOne($state_max_id);
 
-        if ($id == $report_max_id /* && $state_model_with_max_id->input == 0*/) {
+        if ($id == $report_max_id && $state_model_with_max_id->input == 0) {
 
             $model = $this->findModel($id);
             $day = $this->dayNumberOfReport($id); 
@@ -154,19 +154,19 @@ class ReportsController extends Controller
     public function actionDelete($id)
     {
         $report_max_id = Reports::find()->max('id');
-        //$state_max_id = \app\models\State::find()->max('id');
-       // $state_model_with_max_id = \app\models\State::findOne($state_max_id);
+        $state_max_id = \backend\models\State::find()->max('id');
+        $state_model_with_max_id = \backend\models\State::findOne($state_max_id);
         /*
          * if $state_model_with_max_id->input == 0 , 
          * then the last model in the state table is a report
          * otherwise it would have been an order
          */
-        if ( $id == $report_max_id /*&& $state_model_with_max_id->input == 0*/) {
+        if ( $id == $report_max_id && $state_model_with_max_id->input == 0) {
             /*
              * TRANSACTION
              */
             $this->findModel($id)->delete();
-           // $state_model_with_max_id->delete();
+            $state_model_with_max_id->delete();
             /*
              * TRANSACTION
              */
@@ -222,32 +222,4 @@ class ReportsController extends Controller
         
         return $day;
     }
-
-
-    /*
-     * to export excel monthly
-     
-    public function actionExport($month) {
-        $model = new Reports();
-        $dataProviderMonthly = $model->getDataProviderMonthly();
-        ExcelView::widget([
-            'dataProvider' => $dataProviderMonthly[$month],
-           // 'filterModel' => $searchModel,
-            'fullExportType'=> 'xlsx', //can change to html,xls,csv and so on
-            'grid_mode' => 'export',
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                'id',
-                'revenue',
-                'expense_on_goods',
-                'other_expenses',
-                'salary',
-                'day_type',
-                'date',
-                'create_date',
-            ],
-        ]);
-    }
-     * 
-     */
 }

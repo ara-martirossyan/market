@@ -9,7 +9,7 @@ use common\models\PermissionHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-//use arturoliveira\ExcelView;
+use arturoliveira\ExcelView;
 
 /**
  * ReportsController implements the CRUD actions for Reports model.
@@ -61,28 +61,23 @@ class ReportsController extends Controller
     {
         $fromYear = 2014;
         $untilYear = 2021;
-
-       $searchModel = [];
-       $dataProvider = [];
-
-       
-        for($y = $fromYear; $y <= $untilYear; ++$y){
-            for($m = 1; $m <= 12; ++$m){
-                  $searchModel[$y][$m] = new ReportsSearch();
-                  $dataProvider[$y][$m] = $searchModel[$y][$m]->search($y, $m, Yii::$app->request->queryParams);
+        $searchModel = [];
+        $dataProvider = [];
+        for ($y = $fromYear; $y <= $untilYear; ++$y) {
+            for ($m = 1; $m <= 12; ++$m) {
+                $searchModel[$y][$m] = new ReportsSearch();
+                $dataProvider[$y][$m] = $searchModel[$y][$m]->search($y, $m, Yii::$app->request->queryParams);
             }
         }
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'currentmonth'=> date('n'),
-            'currentyear' => date('Y'),
-            'fromYear'  => $fromYear,
-            'untilYear' => $untilYear,
-            
-        ]);        
-       
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'currentmonth' => date('n'),
+                    'currentyear' => date('Y'),
+                    'fromYear' => $fromYear,
+                    'untilYear' => $untilYear,
+        ]);
     }
 
     /**
@@ -91,8 +86,7 @@ class ReportsController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    {         
-
+    {      
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -125,10 +119,10 @@ class ReportsController extends Controller
     public function actionUpdate($id)
     {
         $report_max_id = Reports::find()->max('id');
-        //$state_max_id = \app\models\State::find()->max('id');
-        //$state_model_with_max_id = \app\models\State::findOne($state_max_id);
+        $state_max_id = \backend\models\State::find()->max('id');
+        $state_model_with_max_id = \backend\models\State::findOne($state_max_id);
 
-        if ($id == $report_max_id /* && $state_model_with_max_id->input == 0*/) {
+        if ($id == $report_max_id  && $state_model_with_max_id->input == 0) {
 
             $model = $this->findModel($id);
 
@@ -155,19 +149,19 @@ class ReportsController extends Controller
     public function actionDelete($id)
     {
         $report_max_id = Reports::find()->max('id');
-        //$state_max_id = \app\models\State::find()->max('id');
-       // $state_model_with_max_id = \app\models\State::findOne($state_max_id);
+        $state_max_id = \backend\models\State::find()->max('id');
+        $state_model_with_max_id = \backend\models\State::findOne($state_max_id);
         /*
          * if $state_model_with_max_id->input == 0 , 
          * then the last model in the state table is a report
          * otherwise it would have been an order
          */
-        if ( $id == $report_max_id /*&& $state_model_with_max_id->input == 0*/) {
+        if ( $id == $report_max_id && $state_model_with_max_id->input == 0) {
             /*
              * TRANSACTION
              */
             $this->findModel($id)->delete();
-           // $state_model_with_max_id->delete();
+            $state_model_with_max_id->delete();
             /*
              * TRANSACTION
              */
@@ -194,30 +188,34 @@ class ReportsController extends Controller
         }
     }
     
-    /*
-     * to export excel monthly
-     
-    public function actionExport($month) {
-        $model = new Reports();
-        $dataProviderMonthly = $model->getDataProviderMonthly();
+    
+    /**
+     * exports Excel document of the $yaer-$month grid
+     * @param type $year int
+     * @param type $month int
+     */ 
+    public function actionExcel($year, $month) {
+        $searchModel = new ReportsSearch();
+        $dataProvider = $searchModel->search($year, $month, Yii::$app->request->queryParams);        
+
         ExcelView::widget([
-            'dataProvider' => $dataProviderMonthly[$month],
-           // 'filterModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'filterModel'  => $searchModel,
             'fullExportType'=> 'xlsx', //can change to html,xls,csv and so on
             'grid_mode' => 'export',
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'id',
+                'user_id',
                 'revenue',
                 'expense_on_goods',
                 'other_expenses',
                 'salary',
                 'day_type',
                 'date',
-                'create_date',
+                'created_at',
+                'updated_at'
             ],
         ]);
     }
-     * 
-     */
+     
 }

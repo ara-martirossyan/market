@@ -31,7 +31,7 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-        <?= Html::a(' Add Report', ['create'], ['class' => 'fa fa-plus btn btn-default']) ?>
+        <?= Html::a(' Add Report', ['create'], ['class' => 'fa fa-plus btn btn-default btn-lg']) ?>
     </p>
 
 
@@ -81,7 +81,9 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
                                 <br>
 
                                 <p>
-                                    <?php // Html::a('Export to Excel', ["/reports/export?month=$m"], ['class' => 'btn btn-success']) ?>
+                                    <?php $url = yii\helpers\Url::to(['reports/excel', 'year' => $y, 'month' => $m]); ?>
+                                    <?=  Html::a('<i class="fa fa-file-excel-o"></i>', $url, ['class' => 'btn btn-default btn'])."&nbsp;Download the Excel file  of the grid" ?> 
+                                    
                                 </p>
                                 <br>                                    
                                 <?php  Pjax::begin(); ?>
@@ -107,14 +109,13 @@ $month = ["", "January", "February", "March", "April", "May", "June", "July", "A
                                                     'contentOptions' => ['style' => 'width: 50px;'],
                                                     'format' => 'raw',
                                                     'value' => function ($model, $index, $key) {
-                                                if ($model->date == " ") {
-                                                    return "Total";
-                                                } else {
-                                                    return ++$key; // ++ dnum enq vor 0-ic chsksi hamarakalumy
-                                                }
-                                            },
-                                                ],
-                                                
+                                                         if ($model->date == " ") {
+                                                             return "Total";
+                                                         } else {
+                                                             return ++$key; // ++ dnum enq vor 0-ic chsksi hamarakalumy
+                                                         }
+                                                    },
+                                                ],                                                
                                                 [
                                                    'attribute' => 'user',
                                                    'value' => function($model) {
