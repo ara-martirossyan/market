@@ -21,7 +21,9 @@
         "kartik-v/yii2-social": "dev-master", 
         "yiisoft/yii2-authclient": "*",
         "fortawesome/font-awesome": "4.2.0",
-        "udokmeci/yii2-phone-validator" : "dev-master"
+        "udokmeci/yii2-phone-validator" : "dev-master",
+        "arturoliveira/yii2-excelview": "*"
+        
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

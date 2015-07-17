@@ -1,12 +1,15 @@
 <?php
 
-use backend\assets\AppAsset;
+
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\models\ValueHelpers;
+
+use backend\assets\AppAsset;
 use backend\assets\FontAwesomeAsset;
+use backend\assets\NestedTabsAsset;
 
 
 /* @var $this \yii\web\View */
@@ -14,6 +17,9 @@ use backend\assets\FontAwesomeAsset;
 
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
+NestedTabsAsset::register($this);
+
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -33,9 +39,12 @@ FontAwesomeAsset::register($this);
         $is_admin = ValueHelpers::getRoleValue('Admin');
 
         if (!Yii::$app->user->isGuest) {
-
+            $state_max_id = \backend\models\State::find()->max('id');
+            $state_model_with_max_id = \backend\models\State::findOne($state_max_id);    
+            $shop_state = $state_model_with_max_id->shop_state;
+            
             NavBar::begin([
-                'brandLabel' => 'Market <i class="fa fa-shopping-cart"></i> Admin',
+                'brandLabel' => 'Market <i class="fa fa-shopping-cart"></i> Admin &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-eur"></i>  '.$shop_state,
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -52,12 +61,11 @@ FontAwesomeAsset::register($this);
         }
 
 
-        $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
-        ];
+        
  
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role_id >= $is_admin) {
-            $menuItems[] = ['label' => 'Users', 'url' => ['user/index']];
+            $menuItems[] = ['label' => '', 'url' => ['/site/index'], 'linkOptions'=>['class'=>'fa fa-gears']];           
+            $menuItems[] = ['label' => '', 'url' => ['user/index'], 'linkOptions'=>['class'=>'fa fa-users']];
             $menuItems[] = ['label' => 'Profiles', 'url' => ['profile/index']];
             $menuItems[] = ['label' => 'Roles', 'url' => ['/role/index']];
             $menuItems[] = ['label' => 'User Types', 'url' => ['/user-type/index']];
@@ -68,11 +76,17 @@ FontAwesomeAsset::register($this);
         } else {
            // $menuItems[] = ['label' => 'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout']];
             $menuItems[] = [
-                'label' => Yii::$app->user->identity->username,
+                'label' => " ".Yii::$app->user->identity->username,
                 'items' =>
                 [
-                    [ 'label' => 'Logout', 'url' => [ '/site/logout']],
-                ]
+                    [ 
+                        'label' => " ".Yii::$app->user->identity->username, 
+                        'url' => yii\helpers\Url::to(['user/view', 'id' => Yii::$app->user->identity->id]), 
+                        'linkOptions' => ['data-method' => 'post', 'class'=>'glyphicon glyphicon-user']
+                    ], 
+                    [ 'label' => ' Logout', 'url' => [ '/site/logout'], 'linkOptions' => ['data-method' => 'post', 'class'=>'glyphicon glyphicon-log-out']],                    
+                ],
+                'linkOptions'=>['class'=>'fa fa-user']
                 ];
         }
 

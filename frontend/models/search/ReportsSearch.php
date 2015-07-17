@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use common\models\Reports;
 
 /**
- * ReportsSearch represents the model behind the search form about `app\models\Reports`.
+ * ReportsSearch represents the model behind the search form about `common\models\Reports`.
  */
 class ReportsSearch extends Reports
 { 
@@ -34,12 +34,12 @@ class ReportsSearch extends Reports
         return Model::scenarios();
     }  
 
-    /**
-     * 
-     * @param type $month int
-     * @param type $params
-     * @return ActiveDataProvider
-     */
+   /**
+    * @param type $year int
+    * @param string $month int
+    * @param type $params Yii::$app->request->queryParams
+    * @return ActiveDataProvider
+    */
     public function search($year, $month, $params) {
         if($month <= 9){$month = '0'.$month;}        
         $query = Reports::find();            

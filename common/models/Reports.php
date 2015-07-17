@@ -31,6 +31,7 @@ class Reports extends \yii\db\ActiveRecord
     public $averageSalaryPerDay;
     public $numberOfWorkedDays;
     public $totalSalary;
+       
     
 
     /**
@@ -91,49 +92,44 @@ class Reports extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']); 
-    }
-    
-    
-
-
-    /*
-    public function beforeSave() 
-    {          
-        $state_max_id = \app\models\State::find()->max('id');
-        $state_model_with_max_id = \app\models\State::findOne($state_max_id);        
-        
-        
-        if ( $this->isNewRecord ) {
+    }  
+      
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
             
-            $old_shop_state = $state_model_with_max_id->shop_state;
-            $new_state = new State;
-            $new_state->shop_state = $old_shop_state - $this->revenue;
-            $new_state->cash_register_start = $state_model_with_max_id->cash_register_end;
-            $new_state->cash_register_end = $state_model_with_max_id->cash_register_end + $this->revenue;
-            $new_state->output = $this->revenue;
-            $new_state->input = 0;
+            $state_max_id = \backend\models\State::find()->max('id');
+            $state_model_with_max_id = \backend\models\State::findOne($state_max_id);
+            
+            if ($this->isNewRecord) {
 
-            $new_state->save();
+                $old_shop_state = $state_model_with_max_id->shop_state;
+                $new_state = new \backend\models\State;
+                $new_state->shop_state = $old_shop_state - $this->revenue;
+                $new_state->cash_register_start = $state_model_with_max_id->cash_register_end;
+                $new_state->cash_register_end = $state_model_with_max_id->cash_register_end + $this->revenue;
+                $new_state->output = $this->revenue;
+                $new_state->input = 0;
+
+                $new_state->save();
+            } else {
+                $updating_model = $state_model_with_max_id;
+                $previous_id = \backend\models\State::find()->select('max(id)')->andWhere(['<', 'id', $state_max_id]);
+                $previous_model = \backend\models\State::findOne($previous_id);              
+
+                $updating_model->shop_state = $previous_model->shop_state - $this->revenue;
+                $updating_model->cash_register_start = $previous_model->cash_register_end;
+                $updating_model->cash_register_end = $previous_model->cash_register_end + $this->revenue;
+                $updating_model->output = $this->revenue;
+                $updating_model->input = 0;
+
+                $updating_model->save();
+            }
+            return true;
         } else {
-            $updating_model = $state_model_with_max_id;
-            $previous_id = --$state_max_id;
-            $previous_model = \app\models\State::findOne( $previous_id );                     
-            
-            $updating_model->shop_state = $previous_model->shop_state - $this->revenue;
-            $updating_model->cash_register_start = $previous_model->cash_register_end;
-            $updating_model->cash_register_end = $previous_model->cash_register_end + $this->revenue;
-            $updating_model->output = $this->revenue;
-            $updating_model->input = 0;
-            
-            $updating_model->save();
+            return false;
         }
-     
-        return parent::beforeSave();
     }
-     
-     */
-    
-   
+
     public function beforeValidate() 
     {
         if ($this->user_id == null) 
