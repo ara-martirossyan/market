@@ -236,6 +236,26 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
     
+    /**
+     * copied from https://scrutinizer-ci.com/g/creocoder/yii2-app-ninja/code-structure/master/operation/common%5Cmodels%5CUser%3A%3AisPasswordResetTokenValid
+     * @param type $token
+     * @return boolean
+     */
+     public static function isPasswordResetTokenValid($token)
+     {
+         if (empty($token)) {
+             return false;
+         }
+         
+         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+         $parts = explode('_', $token);
+         $timestamp = (int)end($parts);
+         return $timestamp + $expire >= time();
+     }
+    
+    
+    
+    
     
     
     
