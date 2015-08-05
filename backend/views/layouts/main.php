@@ -10,7 +10,7 @@ use common\models\ValueHelpers;
 use backend\assets\AppAsset;
 use backend\assets\FontAwesomeAsset;
 use backend\assets\NestedTabsAsset;
-
+use backend\assets\OrderAjaxAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -18,8 +18,12 @@ use backend\assets\NestedTabsAsset;
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
 NestedTabsAsset::register($this);
-
-
+OrderAjaxAsset::register($this);
+/*
+if (YII_DEBUG) {
+    $this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
+}
+*/
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -41,7 +45,7 @@ NestedTabsAsset::register($this);
         if (!Yii::$app->user->isGuest) {
             $state_max_id = \backend\models\State::find()->max('id');
             $state_model_with_max_id = \backend\models\State::findOne($state_max_id);    
-            $shop_state = $state_model_with_max_id->shop_state;
+            $shop_state = number_format($state_model_with_max_id->shop_state);
             
             NavBar::begin([
                 'brandLabel' => 'Market <i class="fa fa-shopping-cart"></i> Admin &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-eur"></i>  '.$shop_state,

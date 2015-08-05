@@ -21,7 +21,7 @@ class m130524_201442_init extends Migration
             'password_reset_token' => Schema::TYPE_STRING,
             'email' => Schema::TYPE_STRING . ' NOT NULL',
 			
-			'role_id' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
+	    'role_id' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
             'user_type_id' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
             'status_id' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
             'created_at' => Schema::TYPE_DATETIME . ' NOT NULL',

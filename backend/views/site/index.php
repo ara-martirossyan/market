@@ -148,6 +148,40 @@
             </div>
         </div>
         
+        <hr>
+        
+        <div class="row">
+            <div class="col-lg-4">
+                <h2>List of Goods To Order</h2>
+
+                <p>This is the place to to select and order your goods.</p>
+
+                <p>
+                    <?php
+                    if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role_id >= $is_admin) {
+                        echo Html::a('Order Now', ['orders/goods-order-list'], ['class' => 'btn btn-default']);
+                    }
+                    ?>
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <h2>Orders</h2>
+
+                <p>This is where you manage Orders.</p>
+
+                <p>
+                    <?php
+                    if (!Yii::$app->user->isGuest && Yii::$app->user->identity->role_id >= $is_admin) {
+                        echo Html::a('Manage Orders', ['orders/index'], ['class' => 'btn btn-default']);
+                    }
+                    ?>
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <!--empty space-->
+            </div>
+        </div>
+        
         
 
     </div>
