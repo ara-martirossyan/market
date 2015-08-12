@@ -54,7 +54,7 @@ class Profile extends \yii\db\ActiveRecord
     }
     
     
-    public function behaviors() 
+   public function behaviors() 
    { 
         return [    
     'timestamp' => [ 'class' => 'yii\behaviors\TimestampBehavior', 
@@ -66,13 +66,7 @@ class Profile extends \yii\db\ActiveRecord
                  ],
             ];
    }
-    
-    
-    
-    
-    
-    
-
+  
     /**
      * @inheritdoc
      */

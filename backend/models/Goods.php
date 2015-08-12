@@ -98,8 +98,11 @@ class Goods extends \yii\db\ActiveRecord
         
           $this->price_with_vat = (int)(1.1 * ($this->price_without_vat) );
             
-          $this->percentage = (int) (100 * ($this->increment_price)/($this->price_without_vat) - 100);  
-         
+          if($this->price_without_vat != 0){
+             $this->percentage = (int) (100 * ($this->increment_price)/($this->price_without_vat) - 100);  
+          }else{
+             $this->percentage = $this->increment_price;
+          }
           return true;
         }else{
           return false;

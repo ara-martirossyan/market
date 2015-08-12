@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
 
 use yii\widgets\Pjax;
@@ -12,18 +11,9 @@ use yii\widgets\Pjax;
 /* @var $firmList array */
 
 
-$this->title = 'Goods';
+$this->title = 'Select Order';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="goods-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
-
-    <p>
-        <?= Html::a('Create Goods', ['create'], ['class' => 'btn btn-default']) ?>
-    </p>
-</div>
 
 <div class="panel-heading">
     <ul class="nav nav-tabs">
@@ -41,19 +31,43 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 foreach ($firmList as $key => $value) {
     ?>
-            <div class="tab-pane fade in <?= $key == $activeTab ? " active" : ""; ?>" id="tab<?= $key; ?>">                                    
-
-            <?php  Pjax::begin(); ?>
+          
+            <div class="tab-pane fade in <?= $key == $activeTab ? " active" : ""; ?>" id="tab<?= $key; ?>">
+                
+            <p>            
+                <button  id="submit_order<?= $key?>" class ='btn btn-success'>send order</button>
+            </p> 
+            
+            <?php  Pjax::begin(); ?>            
             <?=
             GridView::widget([
                 'dataProvider' => $dataProvider[$key],
                 'filterModel' => $searchModel[$key],
-                
+                'id' => 'grid'.$key,
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'id',
+                    [
+                        'class' => 'yii\grid\CheckboxColumn',                        
+                    ],
+                    [
+                        'attribute' => 'Quantity',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                        return '<div>'
+                                 . '<input '
+                                    . 'type="number" '
+                                    . 'min="1" '
+                                    . 'max="100" '
+                                    . 'step="1" '
+                                    . 'value="1" '
+                                    . 'style = "width: 3em;"'
+                                 . '>'
+                             . '</div>';
+                        },
+                    ],
+                    [ 'class' => 'yii\grid\SerialColumn',],                 
+                    'id', 
                     'name',
-                    'description',                                        
+                    'description',
                     [
                         'attribute' => 'price_with_vat',
                         'value' => function($model) {
@@ -72,7 +86,7 @@ foreach ($firmList as $key => $value) {
                             return number_format($model->increment_price);
                         },
                     ],
-                    'percentage',                                       
+                    'percentage',                     
                     [
                         'attribute' => 'firm_id',
                         'value' => function($model) {
@@ -82,12 +96,12 @@ foreach ($firmList as $key => $value) {
                        'headerOptions' =>  ['style' => "display:none"],
                        'filterOptions' =>  ['style' => "display:none"],
                     ],
-                    'expiration_date',                    
+                    'expiration_date', 
                     [
                         'attribute' => 'is_active',                        
                         'value' => function($goodsrow){ return ($goodsrow->is_active ? "active": "inactive" ); },
                         'filter' => [1 => 'active', 0 => 'inactive'] , 
-                    ],                   
+                    ], 
                     [
                         'format' => ['image', ['width' => '100', 'height' => '100']],
                         'value' => function($data) {
@@ -96,15 +110,19 @@ foreach ($firmList as $key => $value) {
                         'header' => 'picture',
                         'headerOptions' => ['style'=>'text-align:center'],
                     ],
-                    ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]);
             ?>
+            
             <?php  Pjax::end(); ?>
-
+                
             </div>
             <?php } ?>
 
 
     </div>
 </div>
+
+
+
+
