@@ -1,14 +1,13 @@
-Yii 2 Advanced Project Template
-===============================
-
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
-
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
-
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+To download the Market project and to run it on your local server
+follow the steps below 
+1. $ git clone git@github.com:ara-martirossyan/market.git
+2. $ composer global require "fxp/composer-asset-plugin:~1.0.0"
+3. then put composer.phar into market folder manualy 
+4. $ php composer.phar update (this will update vendor according to composer.json)
+5. create market database 
+6. $ yii migrate
+7. go to market.com and sign up
+8. to have access to the backend.market.com open phpMyAdmin and change the role from 10(user) to 30(super user) or to 20(admin)
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-advanced/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-advanced/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
