@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\status;
+use backend\models\Status;
 use backend\models\search\StatusSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 
 use common\models\PermissionHelpers; 
 /**
- * StatusController implements the CRUD actions for status model.
+ * StatusController implements the CRUD actions for Status model.
  */
 class StatusController extends Controller
 {
@@ -52,7 +52,7 @@ class StatusController extends Controller
     }
 
     /**
-     * Lists all status models.
+     * Lists all Status models.
      * @return mixed
      */
     public function actionIndex()
@@ -67,7 +67,7 @@ class StatusController extends Controller
     }
 
     /**
-     * Displays a single status model.
+     * Displays a single Status model.
      * @param integer $id
      * @return mixed
      */
@@ -79,13 +79,13 @@ class StatusController extends Controller
     }
 
     /**
-     * Creates a new status model.
+     * Creates a new Status model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new status();
+        $model = new Status();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

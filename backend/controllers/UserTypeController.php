@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\usertype;
+use backend\models\UserType;
 use backend\models\search\UserTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use common\models\PermissionHelpers; 
 
 /**
- * UserTypeController implements the CRUD actions for usertype model.
+ * UserTypeController implements the CRUD actions for UserType model.
  */
 class UserTypeController extends Controller
 {
@@ -53,7 +53,7 @@ class UserTypeController extends Controller
     }
 
     /**
-     * Lists all usertype models.
+     * Lists all UserType models.
      * @return mixed
      */
     public function actionIndex()
@@ -68,7 +68,7 @@ class UserTypeController extends Controller
     }
 
     /**
-     * Displays a single usertype model.
+     * Displays a single UserType model.
      * @param integer $id
      * @return mixed
      */
@@ -80,13 +80,13 @@ class UserTypeController extends Controller
     }
 
     /**
-     * Creates a new usertype model.
+     * Creates a new UserType model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new usertype();
+        $model = new UserType();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -98,7 +98,7 @@ class UserTypeController extends Controller
     }
 
     /**
-     * Updates an existing usertype model.
+     * Updates an existing UserType model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -117,7 +117,7 @@ class UserTypeController extends Controller
     }
 
     /**
-     * Deletes an existing usertype model.
+     * Deletes an existing UserType model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -130,15 +130,15 @@ class UserTypeController extends Controller
     }
 
     /**
-     * Finds the usertype model based on its primary key value.
+     * Finds the UserType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return usertype the loaded model
+     * @return UserType the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = usertype::findOne($id)) !== null) {
+        if (($model = UserType::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

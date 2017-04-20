@@ -5,12 +5,12 @@ namespace backend\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\usertype;
+use backend\models\UserType;
 
 /**
- * UserTypeSearch represents the model behind the search form about `backend\models\usertype`.
+ * UserTypeSearch represents the model behind the search form about `backend\models\UserType`.
  */
-class UserTypeSearch extends usertype
+class UserTypeSearch extends UserType
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class UserTypeSearch extends usertype
      */
     public function search($params)
     {
-        $query = usertype::find();
+        $query = UserType::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

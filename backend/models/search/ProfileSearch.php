@@ -5,12 +5,12 @@ namespace backend\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\profile;
+use frontend\models\Profile;
 
 /**
- * ProfileSearch represents the model behind the search form about `frontend\models\profile`.
+ * ProfileSearch represents the model behind the search form about `frontend\models\Profile`.
  */
-class ProfileSearch extends profile
+class ProfileSearch extends Profile
 {
    
     public $genderName; 
@@ -44,7 +44,7 @@ class ProfileSearch extends profile
      */
     public function search($params)
     {
-        $query = profile::find();
+        $query = Profile::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,7 +63,7 @@ class ProfileSearch extends profile
                 ],
                 'profileIdLink' => [
                     'asc' => ['profile.id' => SORT_ASC], 
-                    'desc' => ['Profile.id' => SORT_DESC], 
+                    'desc' => ['profile.id' => SORT_DESC], 
                     'label' => 'ID' 
                 ],
                 'userLink' => [

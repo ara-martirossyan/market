@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\role;
+use backend\models\Role;
 use backend\models\search\RoleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -86,7 +86,7 @@ class RoleController extends Controller
      */
     public function actionCreate()
     {
-        $model = new role();
+        $model = new Role();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -138,7 +138,7 @@ class RoleController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = role::findOne($id)) !== null) {
+        if (($model = Role::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

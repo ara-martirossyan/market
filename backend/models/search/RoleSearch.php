@@ -5,12 +5,12 @@ namespace backend\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\role;
+use backend\models\Role;
 
 /**
- * RoleSearch represents the model behind the search form about `backend\models\role`.
+ * RoleSearch represents the model behind the search form about `backend\models\Role`.
  */
-class RoleSearch extends role
+class RoleSearch extends Role
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class RoleSearch extends role
      */
     public function search($params)
     {
-        $query = role::find();
+        $query = Role::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
