@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use frontend\models\profile;
+use frontend\models\Profile;
 use backend\models\search\ProfileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use common\models\PermissionHelpers; 
 
 /**
- * ProfileController implements the CRUD actions for profile model.
+ * ProfileController implements the CRUD actions for Profile model.
  */
 class ProfileController extends Controller
 {
@@ -53,7 +53,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Lists all profile models.
+     * Lists all Profile models.
      * @return mixed
      */
     public function actionIndex()
@@ -68,7 +68,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Displays a single profile model.
+     * Displays a single Profile model.
      * @param string $id
      * @return mixed
      */
@@ -80,13 +80,13 @@ class ProfileController extends Controller
     }
 
     /**
-     * Creates a new profile model.
+     * Creates a new Profile model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new profile();
+        $model = new Profile();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -98,7 +98,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Updates an existing profile model.
+     * Updates an existing Profile model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -117,7 +117,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Deletes an existing profile model.
+     * Deletes an existing Profile model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -130,15 +130,15 @@ class ProfileController extends Controller
     }
 
     /**
-     * Finds the profile model based on its primary key value.
+     * Finds the Profile model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return profile the loaded model
+     * @return Profile the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = profile::findOne($id)) !== null) {
+        if (($model = Profile::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

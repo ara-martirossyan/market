@@ -18,7 +18,7 @@ class m150801_013957_create_profile_table extends Migration
             'first_name' => Schema::TYPE_TEXT,
             'last_name' => Schema::TYPE_TEXT,
             'birthdate' => Schema::TYPE_DATE,
-            'gender_id' => Schema::TYPE_INTEGER . ' NOT NULL UNIQUE',
+            'gender_id' => Schema::TYPE_INTEGER,
 
             'created_at' => Schema::TYPE_DATETIME ,
             'updated_at' => Schema::TYPE_DATETIME ,
