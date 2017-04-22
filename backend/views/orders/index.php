@@ -26,7 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'firm_id',
+            [
+                'attribute' => 'firm_id',
+                'value' => function($model) {
+                    $firm = backend\models\Firms::findOne($model->firm_id);
+                    return $firm->name;
+                },
+            ],
             'price_with_vat',
             'price_without_vat',
             'increment_price',
